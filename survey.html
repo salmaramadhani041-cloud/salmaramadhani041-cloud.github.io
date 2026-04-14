@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kepuasan Pelanggan</title>
+</head>
+<body>
+    <b>Data pengunjung</b> <br>
+    <form method="post" action="data.html">
+        <table>
+            <tr><td>Nama:</td><td><input type="text" name="nama" size="20"></td></tr>
+            <tr><td>Alamat:</td><td><input type="text" name="alamat" size="20"></td></tr>
+            <tr><td>No Tlp:</td><td><input type="text" name="No Tlp" size="20"></td></tr>
+            <tr><td>Email:</td><td><input type="text" name="Email" size="20"></td></tr>
+        </table>
+        <form method="post">
+            Kategori Belanja <br>
+            <select name="Kategori Belanja">
+                <option value="Buah">Buah-Buahan <br></option>
+                <option value="Sayur">Sayur-Sayuran <br></option>
+                <option value="elektronik">Elektronik <br></option>
+            </select>
+        </form>
+        <form method="post">
+            Pilihan Produk Yang Anda Sukai <br>
+            <input type="checkbox" name="Bacaan" value="Alat Rumah tangga">Alat Rumah tangga <br>
+            <input type="checkbox" name="Bacaan" value="Barang elektronik">Barang Elektronik <br>
+            <input type="checkbox" name="Bacaan" Value="Bahan Masakan">Bahan Masakan <br>
+            <input type="checkbox" name="Bacaan" value="Skincare">Skincare <br>
+        </form>
+        <body>
+            <b>Saran</b> <br>
+            <form method="post"> <textarea rows="20" cols="40" wrap="physical" name="komentar"></textarea> <br></form>
+        </body>
+        <input type="submit" value="simpan" name="t1">
+        <input type="reset" value="reset" name="t2">
+    </form>
+</body>
+</html>
