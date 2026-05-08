@@ -1,0 +1,195 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(222, 106, 126);
+}
+
+header{
+    background: linear-gradient(to right, #e583b7, #f56cac);
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+header h1{
+    font-size: 40px;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+nav a{
+    color: white;
+    text-decoration: none;
+    margin: 15px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+nav a:hover{
+    color: rgb(223, 223, 167);
+}
+
+
+.container1{
+    width: 90%;
+    margin: auto;
+    padding: 30px;
+}
+
+
+.biodata{
+    background-color: rgb(214, 75, 75);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.biodata:hover{
+    transform: translateY(-5px);
+}
+
+.foto img{
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 5px solid pink;
+    object-fit: cover;
+    align-items: center;
+}
+
+
+.info h2{
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.info h3{
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.info p{
+    font-size: 18px;
+    line-height: 35px;
+}
+
+.about{
+    background-color: rgb(246, 214, 219);
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.about:hover{
+    transform: scale(1.02);
+}
+
+.about h2{
+    margin-bottom: 15px;
+}
+
+.about p{
+    line-height: 30px;
+    text-align: justify;
+}
+
+.card-container{
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.card{
+    flex: 1;
+    background-color: rgb(246, 214, 219);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover{
+    transform: translateY(-10px);
+}
+
+.card h2{
+    margin-bottom: 20px;
+}
+
+.card ul{
+    padding-left: 20px;
+    line-height: 35px;
+}
+
+.contact{
+    background-color: rgb(246, 214, 219);
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.contact:hover{
+    transform: scale(1.02);
+}
+
+.contact h2{
+    margin-bottom: 15px;
+}
+
+.contact p{
+    line-height: 35px;
+    font-size: 18px;
+}
+
+footer{
+    background-color: rgb(246, 214, 219);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+div .info { background-color: rgb(246, 214, 219);
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+div .About{
+    background-color: rgb(246, 214, 219);
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.kotak {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(243, 190, 200);
+    border: 1px solid rgb(236, 112, 134);
+    text-align: center;
+    line-height: 100px;
+    margin: 5px 0;
+}
+.kotak1 {transition:margin-left 3s, transform 3s 2s, background-color 2s 3s;}
+.container:hover .kotak {
+    transform: rotate(720deg);
+    margin-left: 800px;
+    background-color: rgb(233, 51, 81);
+}
