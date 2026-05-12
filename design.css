@@ -191,5 +191,5 @@ div .About{
 .container:hover .kotak {
     transform: rotate(720deg);
     margin-left: 800px;
-    background-color: rgb(233, 51, 81);
+    background-color: rgb(235, 152, 166);
 }
