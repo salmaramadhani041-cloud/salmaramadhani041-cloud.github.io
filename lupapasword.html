@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lupa Password</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+header.site-header{
+    background:#f0ece3;
+    border-bottom:3px solid #3d5a7a;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 28px;
+    position:relative;
+    z-index:10;
+}
+
+.brand-name{
+    font-size:18px;
+    font-weight:700;
+    color:#1e3356;
+    line-height:1.2;
+}
+
+.brand-sub{
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.12em;
+    color:#4a6080;
+    text-transform:uppercase;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+
+    background:url('lupapassword.jpeg');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.page-body{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    width:900px;
+    display:flex;
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:30px;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.15),
+        inset 0 1px 1px rgba(255,255,255,0.2);
+
+    overflow:hidden;
+}
+
+.left{
+    width:40%;
+    background:rgba(255,255,255,0.05);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+    padding:40px;
+    text-align:center;
+}
+
+.left img{
+    width:180px;
+    margin-bottom:20px;
+}
+
+.left h2{
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+.left p{
+    font-size:13px;
+    line-height:1.6;
+}
+
+.right{
+    width:60%;
+    background:rgba(255,255,255,0.05);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px;
+}
+
+.form-box{
+    width:100%;
+    max-width:400px;
+}
+
+.lock-circle{
+    width:80px;
+    height:80px;
+    background:#eef3ff;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:32px;
+}
+
+.title{
+    text-align:center;
+    font-size:32px;
+    font-weight:bold;
+    margin-top:20px;
+    color:#0f172a;
+}
+
+.desc{
+    text-align:center;
+    color:#64748b;
+    margin-top:10px;
+    margin-bottom:25px;
+    line-height:1.6;
+    font-size:14px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:600;
+    color:#1e293b;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#242e42;
+    color:white;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1a2235;
+}
+
+.back{
+    text-align:center;
+    margin-top:20px;
+}
+
+.back a{
+    text-decoration:none;
+    color:#232e47;
+    font-size:14px;
+    font-weight:500;
+}
+
+@media(max-width:900px){
+
+.container{
+    flex-direction:column;
+    width:95%;
+}
+
+.left,
+.right{
+    width:100%;
+}
+
+.left{
+    padding:30px;
+}
+
+.form-box{
+    width:100%;
+}
+
+.title{
+    font-size:26px;
+}
+
+}
+</style>
+
+</head>
+<body>
+
+<header class="site-header">
+    <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="8" fill="#1e3356"/>
+        <path d="M12 26c0-2 2-3.5 4.5-3.5S21 22.5 21 20s-2-3.5-4.5-3.5S12 18 12 16c0-2 2-3.5 4.5-3.5h11"
+              stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+    <div>
+        <div class="brand-name">Smarts Room</div>
+        <div class="brand-sub">Campus System</div>
+    </div>
+</header>
+
+<div class="page-body">
+    <div class="container">
+
+        <div class="left">
+            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195700.png" alt="Lock">
+
+            <h2>Keamanan akun Anda adalah prioritas kami</h2>
+
+            <p>
+                Reset password dengan aman menggunakan
+                email terdaftar.
+            </p>
+        </div>
+
+        <div class="right">
+            <div class="form-box">
+
+                <div class="lock-circle">🔒</div>
+
+                <h1 class="title">Lupa Password?</h1>
+
+                <p class="desc">
+                    Jangan khawatir, kami akan membantu Anda
+                    mengatur ulang password akun Anda.
+                </p>
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    placeholder="Masukkan email Anda"
+                >
+
+                <button>Kirim Link Reset Password</button>
+
+                <div class="back">
+                    <a href="#">← Kembali ke Halaman Login</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
