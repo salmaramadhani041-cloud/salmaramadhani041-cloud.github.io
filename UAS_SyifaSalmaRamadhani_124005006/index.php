@@ -30,7 +30,6 @@
 
     .page-wrap { max-width: 1180px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
 
-    /* Top bar */
     .top-bar {
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1rem; margin-bottom: 1.75rem;
@@ -38,7 +37,6 @@
     .top-bar h1 { font-size: 1.6rem; font-weight: 700; color: #880e4f; letter-spacing: -0.02em; }
     .top-bar h1 em { font-style: normal; color: #e91e8c; }
 
-    /* Tombol tambah */
     .btn-primary {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 0.5rem 1.2rem; background: #e91e8c; color: #fff;
@@ -47,7 +45,6 @@
     }
     .btn-primary:hover { background: #c2185b; transform: translateY(-1px); }
 
-    /* Statistik */
     .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.875rem; margin-bottom: 1.75rem; }
     .stat-card {
       background: rgba(255,255,255,0.65); border: 1px solid rgba(233,30,140,0.20);
@@ -59,7 +56,6 @@
     }
     .stat-card .val { font-size: 1.4rem; font-weight: 700; color: #d81b60; }
 
-    /* Tabel card */
     .table-card {
       background: rgba(255,255,255,0.55); border: 1px solid rgba(233,30,140,0.20);
       border-radius: 16px; overflow: hidden;
@@ -77,7 +73,6 @@
     tbody tr:hover { background: rgba(233,30,140,0.06); }
     tbody td { padding: 0.8rem 1rem; font-size: 0.845rem; color: #5d1a35; vertical-align: middle; }
 
-    /* Badge & cell */
     .cell-id {
       font-size: 0.72rem; font-weight: 700; color: #c2185b;
       background: rgba(194,24,91,0.12); border: 1px solid rgba(194,24,91,0.25);
@@ -96,7 +91,6 @@
     .cell-harga { font-weight: 600; color: #ad1457; }
     .cell-loc   { font-size: 0.8rem; color: #c2185b; }
 
-    /* Aksi */
     .act-group { display: flex; gap: 6px; }
     .btn-edit, .btn-del {
       font-size: 0.73rem; font-weight: 600; padding: 4px 12px;
@@ -113,7 +107,6 @@
     }
     .btn-del:hover { background: rgba(198,40,40,0.22); color: #7f0000; }
 
-    /* Empty */
     .empty-row td { text-align: center; padding: 3.5rem 1rem; color: #c2185b; font-size: 0.875rem; }
     .empty-row td a { color: #e91e8c; text-decoration: none; }
 
