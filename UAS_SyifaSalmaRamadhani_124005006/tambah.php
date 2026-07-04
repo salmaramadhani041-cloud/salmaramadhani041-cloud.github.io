@@ -1,94 +1,256 @@
+<?php require 'auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Barang</title>
+  <title>Tambah Barang — Gudang Perintilan</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      background-color: #fce4ec;
-      background-image: url('keranjang.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: rgba(255, 220, 230, 0.82);
-      z-index: 0;
-      pointer-events: none;
-    }
-    body > div { position: relative; z-index: 1; }
+:root {
+  --blush:        #f7ece9;
+  --rose-dust:    #d8b4bc;
+  --mauve:        #b98490;
+  --mauve-deep:   #8c5b66;
+  --mauve-darker: #5e3a42;
+  --gold:         #b08d57;
+  --gold-light:   #e4d3ab;
+  --gold-deep:    #8a6a37;
+  --text:         #4a2f35;
+  --text-soft:    #8c6672;
+  --card-glass:   rgba(255,250,248,0.80);
+}
 
-    .form-wrap {
-      display: flex; align-items: flex-start; justify-content: center;
-      min-height: 100vh; padding: 3rem 1rem;
-    }
-    .form-card {
-      width: 100%; max-width: 480px;
-      background: rgba(255,255,255,0.70);
-      border: 1px solid rgba(233,30,140,0.22);
-      border-radius: 18px; padding: 2rem 2.25rem 2.25rem;
-      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    }
-    .form-card h2 { font-size: 1.25rem; font-weight: 700; color: #880e4f; margin-bottom: 0.4rem; }
-    .form-card .sub { font-size: 0.8rem; color: #e48aae; margin-bottom: 1.75rem; }
-    .form-divider { border: none; border-top: 1px solid rgba(233,30,140,0.15); margin-bottom: 1.5rem; }
+body {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  color: var(--text);
+  background-color: var(--blush);
+  background-image: url('keranjang.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(160deg, rgba(94,58,66,0.58) 0%, rgba(216,180,188,0.42) 55%, rgba(247,236,233,0.55) 100%);
+}
+body > * { position: relative; z-index: 1; }
 
-    .field { margin-bottom: 1rem; }
-    .field label {
-      display: block; font-size: 0.75rem; font-weight: 700; color: #c2185b;
-      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem;
-    }
-    .field input[type="text"],
-    .field input[type="number"] {
-      width: 100%; padding: 0.62rem 0.9rem;
-      background: rgba(255,255,255,0.80);
-      border: 1px solid rgba(194,24,91,0.25);
-      border-radius: 8px; color: #880e4f;
-      font-size: 0.875rem; font-family: 'Inter', sans-serif;
-      outline: none; transition: border-color 0.2s, background 0.2s;
-    }
-    .field input:focus { border-color: #e91e8c; background: rgba(233,30,140,0.06); }
-    .field input::placeholder { color: #e48aae; }
+::selection { background: var(--rose-dust); color: var(--mauve-darker); }
+a { color: inherit; }
 
-    .btn-submit {
-      width: 100%; margin-top: 0.75rem; padding: 0.72rem;
-      background: #e91e8c; color: #fff; border: none; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 700; font-family: 'Inter', sans-serif;
-      cursor: pointer; transition: background 0.18s, transform 0.15s;
-    }
-    .btn-submit:hover { background: #c2185b; transform: translateY(-1px); }
+/* ---------- brand ---------- */
+.brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--mauve-darker);
+}
+.brand-bow::before { content: "❀"; margin-right: 8px; color: var(--gold); font-style: normal; }
 
-    .back-link {
-      display: block; text-align: center; margin-top: 1.1rem;
-      font-size: 0.82rem; color: #e48aae; text-decoration: none; transition: color 0.18s;
-    }
-    .back-link:hover { color: #c2185b; }
-  </style>
+/* ---------- navbar ---------- */
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: rgba(255,250,248,0.72);
+  border-bottom: 1px solid rgba(176,141,87,0.30);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.navbar .brand { font-size: 1.55rem; }
+.navbar .nav-right { display: flex; align-items: center; gap: 1.1rem; }
+.navbar .nav-user {
+  font-size: 0.82rem; font-weight: 500; color: var(--text-soft);
+  display: flex; align-items: center; gap: 7px; letter-spacing: 0.01em;
+}
+.navbar .nav-user .avatar-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(176,141,87,0.20);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 0.6rem 1.35rem; border-radius: 4px; border: none; cursor: pointer;
+  font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.8rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--mauve) 0%, var(--mauve-deep) 100%);
+  color: #fff8f6; box-shadow: 0 6px 16px rgba(94,58,66,0.30);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(94,58,66,0.38); background: linear-gradient(135deg, var(--mauve-deep) 0%, var(--mauve-darker) 100%); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.btn-ghost {
+  background: rgba(255,250,248,0.55); color: var(--mauve-darker);
+  border: 1px solid rgba(176,141,87,0.45);
+}
+.btn-ghost:hover { background: rgba(216,180,188,0.30); }
+.btn-block { width: 100%; }
+.btn-sm { padding: 5px 14px; font-size: 0.68rem; border-radius: 3px; }
+.btn-edit { background: rgba(185,132,144,0.14); color: var(--mauve-darker); border: 1px solid rgba(176,141,87,0.35); }
+.btn-edit:hover { background: rgba(185,132,144,0.26); }
+.btn-del { background: rgba(140,58,66,0.08); color: #7a2e34; border: 1px solid rgba(140,58,66,0.24); }
+.btn-del:hover { background: rgba(140,58,66,0.18); }
+
+/* ---------- layout ---------- */
+.page-wrap { max-width: 1180px; margin: 0 auto; padding: 2.2rem 1.5rem 3rem; }
+.form-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 3rem 1rem; }
+
+/* ---------- glass cards ---------- */
+.form-card, .table-card, .stat-card, .auth-card {
+  background: var(--card-glass);
+  border: 1px solid rgba(176,141,87,0.32);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(94,58,66,0.14);
+}
+.form-card, .auth-card { border-radius: 6px; padding: 2.3rem 2.4rem 2.6rem; }
+.auth-card { width: 100%; max-width: 420px; position: relative; overflow: hidden; }
+.auth-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-light));
+}
+.auth-card::after {
+  content: "❀"; position: absolute; top: 14px; right: 20px; font-size: 1.6rem;
+  color: var(--gold); opacity: 0.55;
+}
+.form-card h2, .auth-card h2 {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 2.1rem; font-weight: 600;
+  color: var(--mauve-darker); margin-bottom: 0.2rem;
+}
+.form-card .sub, .auth-card .sub { font-size: 0.82rem; color: var(--text-soft); margin-bottom: 1.6rem; font-weight: 300; }
+.form-divider { border: none; border-top: 1px solid rgba(176,141,87,0.35); margin-bottom: 1.5rem; }
+
+/* ---------- form fields ---------- */
+.field { margin-bottom: 1.05rem; }
+.field label {
+  display: block; font-size: 0.68rem; font-weight: 600; color: var(--gold-deep);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.45rem;
+}
+.field input[type="text"], .field input[type="number"],
+.field input[type="password"], .field input[type="email"] {
+  width: 100%; padding: 0.65rem 0.95rem;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(176,141,87,0.35);
+  border-radius: 3px; color: var(--text);
+  font-size: 0.875rem; font-family: 'Poppins', sans-serif; font-weight: 400;
+  outline: none; transition: border-color 0.2s, background 0.2s;
+}
+.field input:focus { border-color: var(--gold); background: rgba(255,255,255,0.92); }
+.field input::placeholder { color: #c6a5ac; }
+.field-hint { font-size: 0.7rem; color: var(--text-soft); margin-top: 0.35rem; }
+
+/* password strength meter */
+.pw-meter { display: flex; gap: 4px; margin-top: 0.5rem; }
+.pw-meter span { height: 3px; flex: 1; border-radius: 2px; background: rgba(176,141,87,0.20); transition: background 0.2s; }
+.pw-meter.s1 span:nth-child(1) { background: #b56b6b; }
+.pw-meter.s2 span:nth-child(-n+2) { background: var(--gold); }
+.pw-meter.s3 span:nth-child(-n+3) { background: var(--mauve); }
+.pw-meter.s4 span { background: var(--mauve-deep); }
+
+/* ---------- alert / status box ---------- */
+.alert-box {
+  display: none; padding: 0.75rem 1.05rem; border-radius: 4px;
+  font-size: 0.82rem; font-weight: 500; margin-bottom: 1.1rem;
+}
+.alert-box.show { display: block; }
+.alert-box.success { background: rgba(140,163,120,0.14); color: #4c6b3a; border: 1px solid rgba(140,163,120,0.35); }
+.alert-box.error   { background: rgba(140,58,66,0.08); color: #7a2e34; border: 1px solid rgba(140,58,66,0.26); }
+
+/* spinner */
+.spinner {
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.45); border-top-color: #fff;
+  animation: spin 0.7s linear infinite; display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- switch link ---------- */
+.switch-link { display: block; text-align: center; margin-top: 1.3rem; font-size: 0.82rem; color: var(--text-soft); font-weight: 300; }
+.switch-link a { color: var(--mauve-darker); font-weight: 600; text-decoration: none; }
+.switch-link a:hover { text-decoration: underline; }
+.back-link { display: block; text-align: center; margin-top: 1.2rem; font-size: 0.82rem; color: var(--text-soft); text-decoration: none; font-weight: 300; }
+.back-link:hover { color: var(--mauve-darker); }
+
+/* ---------- dashboard stats ---------- */
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.9rem; margin: 1.75rem 0; }
+.stat-card { border-radius: 6px; padding: 1.1rem 1.3rem; }
+.stat-card .lbl { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.4rem; }
+.stat-card .val { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: var(--mauve-darker); }
+
+/* ---------- table ---------- */
+.top-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.25rem; }
+.top-bar h1 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 2.2rem; font-weight: 600; color: var(--mauve-darker); }
+.table-card { border-radius: 6px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+thead tr { background: rgba(176,141,87,0.12); }
+thead th {
+  padding: 0.85rem 1.05rem; text-align: left; font-size: 0.66rem; font-weight: 600;
+  color: var(--gold-deep); text-transform: uppercase; letter-spacing: 0.1em;
+  border-bottom: 1px solid rgba(176,141,87,0.28); white-space: nowrap;
+}
+tbody tr + tr { border-top: 1px solid rgba(176,141,87,0.16); }
+tbody tr:hover { background: rgba(185,132,144,0.06); }
+tbody td { padding: 0.85rem 1.05rem; font-size: 0.845rem; color: var(--text); vertical-align: middle; }
+
+.cell-id {
+  font-size: 0.7rem; font-weight: 600; color: var(--mauve-darker);
+  background: rgba(185,132,144,0.12); border: 1px solid rgba(176,141,87,0.30);
+  border-radius: 3px; padding: 2px 9px; display: inline-block;
+}
+.cell-nama { font-weight: 600; color: var(--mauve-darker); }
+.cell-kategori {
+  font-size: 0.7rem; font-weight: 500; color: var(--gold-deep);
+  background: rgba(176,141,87,0.12); border: 1px solid rgba(176,141,87,0.32);
+  border-radius: 20px; padding: 3px 11px; display: inline-block;
+}
+.cell-stok { font-weight: 600; }
+.stok-ok { color: #4c6b3a; } .stok-warn { color: #a3792e; } .stok-low { color: #8c3a3a; }
+.cell-harga { font-weight: 600; color: var(--mauve-darker); }
+.cell-loc { font-size: 0.8rem; color: var(--text-soft); }
+.act-group { display: flex; gap: 6px; }
+.empty-row td { text-align: center; padding: 3.5rem 1rem; color: var(--text-soft); font-size: 0.875rem; }
+.empty-row td a { color: var(--mauve-darker); text-decoration: none; font-weight: 600; }
+
+@media (max-width: 700px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .top-bar h1 { font-size: 1.7rem; }
+  thead th, tbody td { padding: 0.6rem 0.65rem; font-size: 0.78rem; }
+  .navbar { padding: 0.85rem 1.15rem; }
+}
+
+</style>
 </head>
 <body>
+<nav class="navbar">
+  <span class="brand brand-bow">Gudang Perintilan</span>
+  <div class="nav-right">
+    <span class="nav-user"><span class="avatar-dot"></span>Hai, <?= htmlspecialchars($_SESSION['username']) ?></span>
+    <a href="logout.php" class="btn btn-ghost btn-sm" onclick="return confirm('Yakin ingin keluar?')">Keluar</a>
+  </div>
+</nav>
+
 <div class="form-wrap">
   <div class="form-card">
-    <h2>&#43; Tambah Data Barang</h2>
+    <h2>＋ Tambah Data Barang</h2>
     <p class="sub">Isi semua kolom di bawah lalu klik Simpan.</p>
     <hr class="form-divider">
 
     <form action="simpan.php" method="POST">
       <div class="field">
         <label>Nama Barang</label>
-        <input type="text" name="nama_barang" placeholder="Contoh: Laptop ASUS" required>
+        <input type="text" name="nama_barang" placeholder="Contoh: Pita Satin Pink" required>
       </div>
       <div class="field">
         <label>Kategori</label>
-        <input type="text" name="kategori" placeholder="Contoh: Elektronik" required>
+        <input type="text" name="kategori" placeholder="Contoh: Perintilan" required>
       </div>
       <div class="field">
         <label>Stok</label>
@@ -102,10 +264,10 @@
         <label>Lokasi Rak</label>
         <input type="text" name="lokasi_rak" placeholder="Contoh: A-1, B-3" required>
       </div>
-      <button type="submit" class="btn-submit">&#10003; Simpan Barang</button>
+      <button type="submit" class="btn btn-primary btn-block">✓ Simpan Barang</button>
     </form>
 
-    <a href="index.php" class="back-link">&#8592; Kembali ke daftar</a>
+    <a href="index.php" class="back-link">&larr; Kembali ke daftar</a>
   </div>
 </div>
 </body>

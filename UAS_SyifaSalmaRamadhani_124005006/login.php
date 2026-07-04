@@ -1,14 +1,6 @@
 <?php
-require 'auth.php';
-require 'koneksi.php';
-
-$id = $_GET['id_barang'] ?? '';
-
-$stmt = $pdo->prepare("SELECT * FROM barang WHERE id_barang = :id");
-$stmt->execute([':id' => $id]);
-$d = $stmt->fetch();
-
-if (!$d) {
+session_start();
+if (isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
@@ -18,7 +10,7 @@ if (!$d) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Barang — Gudang Perintilan</title>
+  <title>Masuk — Gudang Perintilan</title>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -42,7 +34,7 @@ body {
   min-height: 100vh;
   color: var(--text);
   background-color: var(--blush);
-  background-image: url('keranjang.jpg');
+  background-image: url('pinkG.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -243,49 +235,78 @@ tbody td { padding: 0.85rem 1.05rem; font-size: 0.845rem; color: var(--text); ve
 </style>
 </head>
 <body>
-<nav class="navbar">
-  <span class="brand brand-bow">Gudang Perintilan</span>
-  <div class="nav-right">
-    <span class="nav-user"><span class="avatar-dot"></span>Hai, <?= htmlspecialchars($_SESSION['username']) ?></span>
-    <a href="logout.php" class="btn btn-ghost btn-sm" onclick="return confirm('Yakin ingin keluar?')">Keluar</a>
-  </div>
-</nav>
-
 <div class="form-wrap">
-  <div class="form-card">
-    <h2>✎ Edit Data Barang</h2>
-    <p class="sub">Ubah data yang diperlukan lalu klik Update.</p>
+  <div class="auth-card">
+    <h2>Selamat Datang Kembali</h2>
+    <p class="sub">Masuk terlebih dahulu untuk mengelola gudang perintilanmu</p>
     <hr class="form-divider">
 
-    <form action="update.php" method="POST">
-      <input type="hidden" name="id_barang" value="<?= htmlspecialchars($d['id_barang']) ?>">
+    <div id="statusAlert" class="alert-box"></div>
 
+    <form id="formLogin" novalidate>
       <div class="field">
-        <label>Nama Barang</label>
-        <input type="text" name="nama_barang" value="<?= htmlspecialchars($d['nama_barang']) ?>" required>
+        <label>Username atau Email</label>
+        <input type="text" name="identifier" placeholder="Masukkan username atau email" required autocomplete="username">
       </div>
       <div class="field">
-        <label>Kategori</label>
-        <input type="text" name="kategori" value="<?= htmlspecialchars($d['kategori']) ?>" required>
-      </div>
-      <div class="field">
-        <label>Stok</label>
-        <input type="number" name="stok" value="<?= htmlspecialchars($d['stok']) ?>" min="0" required>
-      </div>
-      <div class="field">
-        <label>Harga (Rp)</label>
-        <input type="number" name="harga" value="<?= htmlspecialchars($d['harga']) ?>" min="0" required>
-      </div>
-      <div class="field">
-        <label>Lokasi Rak</label>
-        <input type="text" name="lokasi_rak" value="<?= htmlspecialchars($d['lokasi_rak']) ?>" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Masukkan password" required autocomplete="current-password">
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">⟲ Update Barang</button>
+      <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+        <span id="btnText">✦ Masuk</span>
+        <span id="btnSpinner" class="spinner"></span>
+      </button>
     </form>
 
-    <a href="index.php" class="back-link">&larr; Kembali ke daftar</a>
+    <p class="switch-link">Belum punya akun? <a href="register.php">Daftar di sini</a></p>
   </div>
 </div>
+
+<script>
+document.getElementById('formLogin').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const alertBox = document.getElementById('statusAlert');
+  const submitBtn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const btnSpinner = document.getElementById('btnSpinner');
+
+  const formData = new FormData(form);
+
+  submitBtn.disabled = true;
+  btnText.textContent = "Sedang memproses...";
+  btnSpinner.style.display = "inline-block";
+  alertBox.classList.remove('show', 'success', 'error');
+
+  try {
+    const response = await fetch('login_process.php', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+
+    alertBox.classList.add('show');
+    if (response.ok) {
+      alertBox.classList.add('success');
+      alertBox.textContent = data.message;
+      setTimeout(() => { window.location.href = 'index.php'; }, 600);
+    } else {
+      alertBox.classList.add('error');
+      alertBox.textContent = data.message || 'Gagal masuk.';
+      submitBtn.disabled = false;
+      btnText.textContent = "✦ Masuk";
+      btnSpinner.style.display = "none";
+    }
+  } catch (err) {
+    alertBox.classList.add('show', 'error');
+    alertBox.textContent = "Gagal menghubungi server. Periksa koneksi lokal Anda.";
+    submitBtn.disabled = false;
+    btnText.textContent = "✦ Masuk";
+    btnSpinner.style.display = "none";
+    console.error(err);
+  }
+});
+</script>
 </body>
 </html>

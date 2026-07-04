@@ -1,14 +1,6 @@
 <?php
-require 'auth.php';
-require 'koneksi.php';
-
-$id = $_GET['id_barang'] ?? '';
-
-$stmt = $pdo->prepare("SELECT * FROM barang WHERE id_barang = :id");
-$stmt->execute([':id' => $id]);
-$d = $stmt->fetch();
-
-if (!$d) {
+session_start();
+if (isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
@@ -18,7 +10,7 @@ if (!$d) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Barang — Gudang Perintilan</title>
+  <title>Daftar — Gudang Perintilan</title>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -243,49 +235,133 @@ tbody td { padding: 0.85rem 1.05rem; font-size: 0.845rem; color: var(--text); ve
 </style>
 </head>
 <body>
-<nav class="navbar">
-  <span class="brand brand-bow">Gudang Perintilan</span>
-  <div class="nav-right">
-    <span class="nav-user"><span class="avatar-dot"></span>Hai, <?= htmlspecialchars($_SESSION['username']) ?></span>
-    <a href="logout.php" class="btn btn-ghost btn-sm" onclick="return confirm('Yakin ingin keluar?')">Keluar</a>
-  </div>
-</nav>
-
 <div class="form-wrap">
-  <div class="form-card">
-    <h2>✎ Edit Data Barang</h2>
-    <p class="sub">Ubah data yang diperlukan lalu klik Update.</p>
+  <div class="auth-card">
+    <h2>Buat Akun Baru</h2>
+    <p class="sub">Daftar dulu supaya bisa kelola gudang perintilanmu dengan anggun</p>
     <hr class="form-divider">
 
-    <form action="update.php" method="POST">
-      <input type="hidden" name="id_barang" value="<?= htmlspecialchars($d['id_barang']) ?>">
+    <div id="statusAlert" class="alert-box"></div>
 
+    <form id="formRegister" novalidate>
       <div class="field">
-        <label>Nama Barang</label>
-        <input type="text" name="nama_barang" value="<?= htmlspecialchars($d['nama_barang']) ?>" required>
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Contoh: cutewarehouse" required minlength="3" autocomplete="username">
       </div>
       <div class="field">
-        <label>Kategori</label>
-        <input type="text" name="kategori" value="<?= htmlspecialchars($d['kategori']) ?>" required>
+        <label>Alamat Email</label>
+        <input type="email" name="email" placeholder="contoh: nama@domain.com" required autocomplete="email">
       </div>
       <div class="field">
-        <label>Stok</label>
-        <input type="number" name="stok" value="<?= htmlspecialchars($d['stok']) ?>" min="0" required>
+        <label>Password</label>
+        <input type="password" id="password" name="password" placeholder="Min. 8 karakter" required minlength="8" autocomplete="new-password">
+        <div class="pw-meter" id="pwMeter"><span></span><span></span><span></span><span></span></div>
+        <p class="field-hint" id="pwHint">Gunakan huruf besar, angka, dan karakter spesial.</p>
       </div>
       <div class="field">
-        <label>Harga (Rp)</label>
-        <input type="number" name="harga" value="<?= htmlspecialchars($d['harga']) ?>" min="0" required>
-      </div>
-      <div class="field">
-        <label>Lokasi Rak</label>
-        <input type="text" name="lokasi_rak" value="<?= htmlspecialchars($d['lokasi_rak']) ?>" required>
+        <label>Konfirmasi Password</label>
+        <input type="password" id="confirmPassword" name="confirm_password" placeholder="Ulangi password" required autocomplete="new-password">
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">⟲ Update Barang</button>
+      <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+        <span id="btnText">✦ Daftar Akun</span>
+        <span id="btnSpinner" class="spinner"></span>
+      </button>
     </form>
 
-    <a href="index.php" class="back-link">&larr; Kembali ke daftar</a>
+    <p class="switch-link">Sudah punya akun? <a href="login.php">Masuk di sini</a></p>
   </div>
 </div>
+
+<script>
+const pwInput = document.getElementById('password');
+const pwMeter = document.getElementById('pwMeter');
+const pwHint  = document.getElementById('pwHint');
+
+function evaluatePassword(val) {
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  return score;
+}
+
+pwInput.addEventListener('input', () => {
+  const score = evaluatePassword(pwInput.value);
+  pwMeter.className = 'pw-meter s' + score;
+  const labels = ['Terlalu lemah', 'Lemah', 'Cukup', 'Kuat', 'Sangat kuat'];
+  pwHint.textContent = pwInput.value.length ? labels[score] + ' — gunakan huruf besar, angka, dan karakter spesial.' : 'Gunakan huruf besar, angka, dan karakter spesial.';
+});
+
+document.getElementById('formRegister').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const alertBox = document.getElementById('statusAlert');
+  const submitBtn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const btnSpinner = document.getElementById('btnSpinner');
+
+  alertBox.classList.remove('show', 'success', 'error');
+
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  // Validasi kekuatan password di sisi klien
+  const strongEnough = password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[^A-Za-z0-9]/.test(password);
+
+  if (!strongEnough) {
+    alertBox.classList.add('show', 'error');
+    alertBox.textContent = 'Password harus minimal 8 karakter dan mengandung huruf kapital, angka, serta karakter spesial.';
+    return;
+  }
+  if (password !== confirmPassword) {
+    alertBox.classList.add('show', 'error');
+    alertBox.textContent = 'Konfirmasi password tidak cocok.';
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  submitBtn.disabled = true;
+  btnText.textContent = "Sedang memproses...";
+  btnSpinner.style.display = "inline-block";
+
+  try {
+    const response = await fetch('register_process.php', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+
+    alertBox.classList.add('show');
+    if (response.ok) {
+      alertBox.classList.remove('error');
+      alertBox.classList.add('success');
+      alertBox.textContent = data.message + ' Mengarahkan ke halaman masuk...';
+      form.reset();
+      pwMeter.className = 'pw-meter';
+      setTimeout(() => { window.location.href = 'login.php'; }, 1200);
+    } else {
+      alertBox.classList.remove('success');
+      alertBox.classList.add('error');
+      alertBox.textContent = data.message || 'Gagal melakukan registrasi.';
+      submitBtn.disabled = false;
+      btnText.textContent = "✦ Daftar Akun";
+      btnSpinner.style.display = "none";
+    }
+  } catch (err) {
+    alertBox.classList.add('show', 'error');
+    alertBox.textContent = "Gagal menghubungi server. Periksa koneksi lokal Anda.";
+    submitBtn.disabled = false;
+    btnText.textContent = "✦ Daftar Akun";
+    btnSpinner.style.display = "none";
+    console.error(err);
+  }
+});
+</script>
 </body>
 </html>
